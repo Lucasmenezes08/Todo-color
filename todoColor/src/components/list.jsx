@@ -18,7 +18,12 @@ export function Lista (){
 
     function adicionar (){
         setTarefas(t => [...t , novastarefas]);
-        setNovasTarefas = "";
+        setNovasTarefas('');
+    }
+
+    function deletar (index){
+        const tarefasReformatadas = tarefas.filter((task , i) => i !== index);
+        setTarefas(tarefasReformatadas);
     }
 
 
@@ -48,10 +53,17 @@ export function Lista (){
                 <button type="button"></button>
                 <ol>
                     {tarefas.map((tarefas , index) =>
-                        <li key={index}>{tarefas}</li>
+                        <li key={index}>
+                            <section>
+                                {tarefas}
+                                <button key={index} onClick={() => deletar(index)} >Deletar</button>
+                            </section>
+
+                        </li>
+                        
                     )}
                 </ol>
-                <button></button>
+                
             </section>
 
         </section>

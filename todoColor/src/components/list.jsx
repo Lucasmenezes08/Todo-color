@@ -1,8 +1,11 @@
 import { useState } from "react"
+import { Progress } from "./progress";
 
 export function Lista (){
     const [tarefas , setTarefas] = useState([]);
     const [novastarefas , setNovasTarefas] = useState('');
+    const totalMaterias = tarefas.length;
+    const materiasConcluidas = tarefas.filter(tarefa => tarefa.isCompleted).length;
 
     function handleInputText (event){
         setNovasTarefas(event.target.value)
@@ -16,8 +19,22 @@ export function Lista (){
         }
     }
 
+    function handleCheckBox (idTarefa){
+        setTarefas(tarefasAnteriores =>
+            tarefasAnteriores.map((tarefa => 
+                tarefa.id === idTarefa ? {...tarefa , isCompleted: !tarefa.isCompleted} : tarefa
+            ))
+        )
+    }
+
     function adicionar (){
-        setTarefas(t => [...t , novastarefas]);
+        const novaTarefaObjeto = {
+            id: Date.now(), 
+            text: novastarefas,
+            isCompleted: false 
+        };
+
+        setTarefas(t => [...t , novaTarefaObjeto]);
         setNovasTarefas('');
     }
 
@@ -26,6 +43,7 @@ export function Lista (){
         setTarefas(tarefasReformatadas);
     }
 
+    
 
     return (
         <section>
@@ -45,18 +63,22 @@ export function Lista (){
             </input>
 
             <section>
-                <p>complete</p>
-                <section></section>
+                <progress value={materiasConcluidas} max={totalMaterias}></progress>
             </section>
 
             <section>
                 <button type="button"></button>
                 <ol>
                     {tarefas.map((tarefas , index) =>
-                        <li key={index}>
+                        <li key={tarefas.id}>
                             <section>
-                                {tarefas}
-                                <button key={index} onClick={() => deletar(index)} >Deletar</button>
+                                <input 
+                                    type="checkbox" 
+                                    checked={tarefas.isCompleted} 
+                                    onChange={() => handleCheckBox(tarefas.id)}>
+                                </input>
+                                {tarefas.text}
+                                <button onClick={() => deletar(index)} >Deletar</button>
                             </section>
 
                         </li>

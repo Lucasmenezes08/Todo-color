@@ -80,7 +80,7 @@ export function Lista (){
             </section>
 
             <input 
-                className="w-[100%] h-[9vh] bg-[#f0f2f5] overflow-hidden border-none focus:outline-0 focus:ring-0 resize-none rounded-xl shadow-xs text-start px-3 mb-[2rem]"
+                className="w-[100%] h-[9vh] bg-[#f0f2f5] overflow-hidden border-none focus:outline-0 focus:ring-0 resize-none rounded-xl shadow-xs text-start px-3 mb-[2rem] hover:bg-[#e0e1e0] transition ease-in-out"
                 type="text"
                 id='items-input' 
                 value={novastarefas}
@@ -114,13 +114,13 @@ export function Lista (){
             <section className=" w-[100%] h-auto overflow-y-auto max-h-[calc(70vh-30vh)]" >
                 <ol className="w-[100%] flex items-center flex-col">
                     {tarefas.map((tarefas , index) =>
-                        <li key={tarefas.id} className="w-full flex items-center justify-between p-3 my-1 ">
+                        <li key={tarefas.id} className="w-full flex items-center justify-between p-3 my-1 hover:bg-gray-200 rounded-2xl transition ease-in-out">
                             <section className="flex items-center justify-center my-1">
                                 <input 
                                     type="checkbox" 
                                     checked={tarefas.isCompleted} 
                                     onChange={() => handleCheckBox(tarefas.id)}
-                                    className="w-5 h-6 text-blue-300 rounded focus:ring-blue-500"
+                                    className="w-5 h-6 text-blue-300 rounded focus:ring-blue-500 cursor-pointer"
                                     >
                                     
                                 </input>
@@ -129,7 +129,9 @@ export function Lista (){
                                 </section>
                                 
                             </section>
-                            <button onClick={() => deletar(index)} >
+                            <button onClick={() => deletar(index)} 
+                                    className="w-5 h-6 cursor-pointer"
+                                >
                                 <img src={LixeiraIcon}></img>
                             </button>
 

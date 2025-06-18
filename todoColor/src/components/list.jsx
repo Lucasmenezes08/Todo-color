@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Progress } from "./progress";
+
 
 export function Lista (){
     const [tarefas , setTarefas] = useState([]);
@@ -62,13 +62,13 @@ export function Lista (){
     
 
     return (
-        <section>
-            <section>
-                <h2>Minhas tarefas</h2>
-                <button>+</button>
+        <section className="min-w-[30%] min-h-[70vh] max-h-auto flex flex-col justify-start items-center bg-white overflow-auto rounded-2xl box-border shadow-3xl py-6 px-4">
+            <section className="">
+                <h2 className="font-medium text-xl font-sans mb-[2rem]">Minhas tarefas</h2>
             </section>
 
             <input 
+                className="w-[100%] h-[9vh] bg-[#f0f2f5] overflow-hidden border-none focus:outline-0 focus:ring-0 resize-none rounded-xl shadow-xs text-start px-3 mb-[2rem]"
                 type="text"
                 id='items-input' 
                 value={novastarefas}

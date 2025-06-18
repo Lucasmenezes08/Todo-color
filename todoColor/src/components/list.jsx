@@ -79,7 +79,11 @@ export function Lista (){
             </input>
 
             <section>
-                <progress value={materiasConcluidas} max={totalMaterias}></progress>
+                <progress 
+                    id="progress"
+                    value={materiasConcluidas} 
+                    max={totalMaterias}>
+                </progress>
             </section>
 
             <section>

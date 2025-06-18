@@ -28,11 +28,27 @@ export function Lista (){
     }
 
     function adicionar (){
+
+
         const novaTarefaObjeto = {
             id: Date.now(), 
             text: novastarefas,
             isCompleted: false 
         };
+
+     
+
+        if (novastarefas.trim() === ''){
+            console.log ("Input vazio");
+            return;
+        }
+
+        const tarefaJaExiste = tarefas.some(tarefa => tarefa.text.toLowerCase() === novastarefas.trim().toLocaleLowerCase());
+
+        if (tarefaJaExiste){
+            console.log("Tarefa ja existe!");
+            return;
+        }
 
         setTarefas(t => [...t , novaTarefaObjeto]);
         setNovasTarefas('');

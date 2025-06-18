@@ -6,13 +6,14 @@ import LixeiraIcon from '../assets/lixeira.png';
 export function Lista (){
     const [tarefas , setTarefas] = useState([]);
     const [novastarefas , setNovasTarefas] = useState('');
+    const [validarConteudo , setValidarConteudo] = useState(false);
     const totalMaterias = tarefas.length;
     const materiasConcluidas = tarefas.filter(tarefa => tarefa.isCompleted).length;
     const barraProgresso = totalMaterias > 0 ? Math.round((materiasConcluidas / totalMaterias) * 100) : 0;
 
 
     function handleInputText (event){
-        setNovasTarefas(event.target.value)
+        setNovasTarefas(event.target.value);
     }
 
 
@@ -33,7 +34,7 @@ export function Lista (){
 
     function adicionar (){
 
-
+        setValidarConteudo(false);
         const novaTarefaObjeto = {
             id: Date.now(), 
             text: novastarefas,
@@ -43,14 +44,16 @@ export function Lista (){
      
 
         if (novastarefas.trim() === ''){
-            console.log ("Input vazio");
+            alert("Espaço está vazio!")
+            setValidarConteudo(true);
             return;
         }
 
         const tarefaJaExiste = tarefas.some(tarefa => tarefa.text.toLowerCase() === novastarefas.trim().toLocaleLowerCase());
 
         if (tarefaJaExiste){
-            console.log("Tarefa ja existe!");
+            alert("A tarefa já existe!");
+            setValidarConteudo(true);
             return;
         }
 
@@ -71,8 +74,9 @@ export function Lista (){
                 <h2 className="font-medium text-xl font-sans mb-[2rem]">Minhas tarefas</h2>
             </section>
 
+
             <input 
-                className="w-[100%] h-[9vh] bg-[#f0f2f5] overflow-hidden border-none focus:outline-0 focus:ring-0 resize-none rounded-xl shadow-xs text-start px-3 mb-[2rem] hover:bg-[#e0e1e0] transition ease-in-out"
+                className={`w-[100%] h-[9vh] bg-[#f0f2f5] overflow-hidden focus:outline-0 focus:ring-0 resize-none rounded-xl shadow-xs text-start px-3 mb-[2rem] hover:bg-[#e0e1e0] transition ease-in-out ${validarConteudo ? "border-1 border-red-500": "border-none"}`}
                 type="text"
                 id='items-input' 
                 value={novastarefas}
@@ -81,7 +85,7 @@ export function Lista (){
                 placeholder="Adicione um item"  
                 maxLength={30}>
             </input>
-
+            
             <section className="w-full mb-4 flex-col-reverse">
                 <p>{barraProgresso} %</p>
                 <LinearProgress

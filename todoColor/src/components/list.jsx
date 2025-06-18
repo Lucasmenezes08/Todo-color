@@ -1,4 +1,6 @@
 import { useState } from "react"
+import LinearProgress from '@mui/material/LinearProgress';
+import LixeiraIcon from '../assets/lixeira.png';
 
 
 export function Lista (){
@@ -6,6 +8,16 @@ export function Lista (){
     const [novastarefas , setNovasTarefas] = useState('');
     const totalMaterias = tarefas.length;
     const materiasConcluidas = tarefas.filter(tarefa => tarefa.isCompleted).length;
+    const barraProgresso = totalMaterias > 0 ? Math.round((materiasConcluidas / totalMaterias) * 100) : 0;
+
+
+    console.log("--- Render Lista Component ---");
+    console.log("Tarefas:", tarefas);
+    console.log("Total Matérias:", totalMaterias);
+    console.log("Matérias Concluídas:", materiasConcluidas);
+    console.log("Barra de Progresso (0-100):", barraProgresso);
+
+
 
     function handleInputText (event){
         setNovasTarefas(event.target.value)
@@ -78,28 +90,48 @@ export function Lista (){
                 maxLength={30}>
             </input>
 
-            <section>
-                <progress 
-                    id="progress"
-                    value={materiasConcluidas} 
-                    max={totalMaterias}>
-                </progress>
+            <section className="w-full mb-4 flex-col-reverse">
+                <p>{barraProgresso} %</p>
+                <LinearProgress
+                    variant="determinate"
+                    value={barraProgresso}
+                    sx={{width: '100%' ,
+                        height: '1rem' , 
+                        backgroundColor: 'gray' ,
+                        borderRadius: '20px', 
+                        boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.05)',
+
+                         '& .MuiLinearProgress-bar': {
+                            backgroundColor: 'black', 
+                            borderRadius: '20px',  
+                            transition: 'transform 0.5s ease-in-out', 
+                        },
+                    
+                    }}
+                />
             </section>
 
-            <section>
-                <button type="button"></button>
-                <ol>
+            <section className=" w-[100%] h-auto overflow-y-auto max-h-[calc(70vh-30vh)]" >
+                <ol className="w-[100%] flex items-center flex-col">
                     {tarefas.map((tarefas , index) =>
-                        <li key={tarefas.id}>
-                            <section>
+                        <li key={tarefas.id} className="w-full flex items-center justify-between p-3 my-1 ">
+                            <section className="flex items-center justify-center my-1">
                                 <input 
                                     type="checkbox" 
                                     checked={tarefas.isCompleted} 
-                                    onChange={() => handleCheckBox(tarefas.id)}>
+                                    onChange={() => handleCheckBox(tarefas.id)}
+                                    className="w-5 h-6 text-blue-300 rounded focus:ring-blue-500"
+                                    >
+                                    
                                 </input>
-                                {tarefas.text}
-                                <button onClick={() => deletar(index)} >Deletar</button>
+                                <section className="px-4 text-lg text-[#121417] font-sans font-normal">
+                                    {tarefas.text}
+                                </section>
+                                
                             </section>
+                            <button onClick={() => deletar(index)} >
+                                <img src={LixeiraIcon}></img>
+                            </button>
 
                         </li>
                         

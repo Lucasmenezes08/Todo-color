@@ -11,14 +11,6 @@ export function Lista (){
     const barraProgresso = totalMaterias > 0 ? Math.round((materiasConcluidas / totalMaterias) * 100) : 0;
 
 
-    console.log("--- Render Lista Component ---");
-    console.log("Tarefas:", tarefas);
-    console.log("Total Matérias:", totalMaterias);
-    console.log("Matérias Concluídas:", materiasConcluidas);
-    console.log("Barra de Progresso (0-100):", barraProgresso);
-
-
-
     function handleInputText (event){
         setNovasTarefas(event.target.value)
     }
@@ -110,8 +102,13 @@ export function Lista (){
                     }}
                 />
             </section>
+            
+            {totalMaterias === 0 ? (
+                <p>Sem tarefas registradas</p>
 
-            <section className=" w-[100%] h-auto overflow-y-auto max-h-[calc(70vh-30vh)]" >
+            ):(
+
+                <section className=" w-[100%] h-auto overflow-y-auto max-h-[calc(70vh-30vh)]" >
                 <ol className="w-[100%] flex items-center flex-col">
                     {tarefas.map((tarefas , index) =>
                         <li key={tarefas.id} className="w-full flex items-center justify-between p-3 my-1 hover:bg-gray-200 rounded-2xl transition ease-in-out">
@@ -141,6 +138,10 @@ export function Lista (){
                 </ol>
                 
             </section>
+
+            )
+        }
+            
 
         </section>
     )

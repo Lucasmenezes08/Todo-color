@@ -2,6 +2,7 @@ import { useState } from "react";
 import LinearProgress from '@mui/material/LinearProgress';
 import LixeiraIcon from '../assets/lixeira.png';
 import DeleteModal from './modals/modal.delete';
+import AlertModal from "./modals/modal.alert";
 
 
 export function Lista (){
@@ -9,6 +10,8 @@ export function Lista (){
     const [novastarefas , setNovasTarefas] = useState('');
     const [validarConteudo , setValidarConteudo] = useState(false);
     const [modalOpen , setModalOpen] = useState(null);
+    const [modalAlertClose , setModalAlertClose] = useState(false)
+    const [mensagemAlerta, setMensagemAlerta] = useState('');
     const totalMaterias = tarefas.length;
     const materiasConcluidas = tarefas.filter(tarefa => tarefa.isCompleted).length;
     const barraProgresso = totalMaterias > 0 ? Math.round((materiasConcluidas / totalMaterias) * 100) : 0;
@@ -42,6 +45,11 @@ export function Lista (){
         setModalOpen(null);
     }
 
+
+    function handleModalAlertOpen (){
+        setModalAlertClose(true)
+    }
+
     function adicionar (){
 
         setValidarConteudo(false);
@@ -54,7 +62,8 @@ export function Lista (){
      
 
         if (novastarefas.trim() === ''){
-            alert("Espaço está vazio!")
+            handleModalAlertOpen();
+            setMensagemAlerta('Envio de conteudo vazio, por favor envie novamente!')
             setValidarConteudo(true);
             return;
         }
@@ -62,7 +71,8 @@ export function Lista (){
         const tarefaJaExiste = tarefas.some(tarefa => tarefa.text.toLowerCase() === novastarefas.trim().toLocaleLowerCase());
 
         if (tarefaJaExiste){
-            alert("A tarefa já existe!");
+            handleModalAlertOpen();
+            setMensagemAlerta('A tarefa já existe na lista.')
             setValidarConteudo(true);
             return;
         }
@@ -167,8 +177,15 @@ export function Lista (){
             onClose={handleModalClose}
             />
         )}
-            
+        
 
+        {mensagemAlerta && (
+            <AlertModal 
+            mensagem={mensagemAlerta}
+            onClose={() => setMensagemAlerta('')}
+            />
+        )}
+        
         </section>  
     )
 }

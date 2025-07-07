@@ -1,12 +1,14 @@
-import { useState } from "react"
+import { useState } from "react";
 import LinearProgress from '@mui/material/LinearProgress';
 import LixeiraIcon from '../assets/lixeira.png';
+import DeleteModal from './modals/modal.delete';
 
 
 export function Lista (){
     const [tarefas , setTarefas] = useState([]);
     const [novastarefas , setNovasTarefas] = useState('');
     const [validarConteudo , setValidarConteudo] = useState(false);
+    const [modalOpen , setModalOpen] = useState(null);
     const totalMaterias = tarefas.length;
     const materiasConcluidas = tarefas.filter(tarefa => tarefa.isCompleted).length;
     const barraProgresso = totalMaterias > 0 ? Math.round((materiasConcluidas / totalMaterias) * 100) : 0;
@@ -30,6 +32,14 @@ export function Lista (){
                 tarefa.id === idTarefa ? {...tarefa , isCompleted: !tarefa.isCompleted} : tarefa
             ))
         )
+    }
+
+    function handleModalOpen (tarefa){
+        setModalOpen(tarefa);
+    }
+
+    function handleModalClose (){
+        setModalOpen(null);
     }
 
     function adicionar (){
@@ -61,9 +71,12 @@ export function Lista (){
         setNovasTarefas('');
     }
 
-    function deletar (index){
-        const tarefasReformatadas = tarefas.filter((task , i) => i !== index);
-        setTarefas(tarefasReformatadas);
+    function deletar (){
+        if (modalOpen){
+            const tarefasReformatadas = tarefas.filter(task => task.id !== modalOpen.id);
+            setTarefas(tarefasReformatadas);
+            handleModalClose();
+        }
     }
 
     
@@ -130,7 +143,7 @@ export function Lista (){
                                 </section>
                                 
                             </section>
-                            <button onClick={() => deletar(index)} 
+                            <button onClick={() => handleModalOpen(tarefas)} 
                                     className="w-5 h-6 cursor-pointer"
                                 >
                                 <img src={LixeiraIcon}></img>
@@ -145,8 +158,17 @@ export function Lista (){
 
             )
         }
+
+
+         {modalOpen && (
+            <DeleteModal 
+            item={modalOpen.text}
+            onDelete={deletar}
+            onClose={handleModalClose}
+            />
+        )}
             
 
-        </section>
+        </section>  
     )
 }

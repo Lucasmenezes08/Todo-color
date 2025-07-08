@@ -68,7 +68,7 @@ export function Lista (){
             return;
         }
 
-        const tarefaJaExiste = tarefas.some(tarefa => tarefa.text.toLowerCase() === novastarefas.trim().toLocaleLowerCase());
+        const tarefaJaExiste = tarefas.some(tarefa => tarefa.text.trim().toLowerCase() === novastarefas.trim().toLocaleLowerCase());
 
         if (tarefaJaExiste){
             handleModalAlertOpen();

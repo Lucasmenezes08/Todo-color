@@ -1,12 +1,17 @@
-import { useState } from "react"
+import { useState } from "react";
 import LinearProgress from '@mui/material/LinearProgress';
 import LixeiraIcon from '../assets/lixeira.png';
+import DeleteModal from './modals/modal.delete';
+import AlertModal from "./modals/modal.alert";
 
 
 export function Lista (){
     const [tarefas , setTarefas] = useState([]);
     const [novastarefas , setNovasTarefas] = useState('');
     const [validarConteudo , setValidarConteudo] = useState(false);
+    const [modalOpen , setModalOpen] = useState(null);
+    const [modalAlertClose , setModalAlertClose] = useState(false)
+    const [mensagemAlerta, setMensagemAlerta] = useState('');
     const totalMaterias = tarefas.length;
     const materiasConcluidas = tarefas.filter(tarefa => tarefa.isCompleted).length;
     const barraProgresso = totalMaterias > 0 ? Math.round((materiasConcluidas / totalMaterias) * 100) : 0;
@@ -32,6 +37,19 @@ export function Lista (){
         )
     }
 
+    function handleModalOpen (tarefa){
+        setModalOpen(tarefa);
+    }
+
+    function handleModalClose (){
+        setModalOpen(null);
+    }
+
+
+    function handleModalAlertOpen (){
+        setModalAlertClose(true)
+    }
+
     function adicionar (){
 
         setValidarConteudo(false);
@@ -44,15 +62,17 @@ export function Lista (){
      
 
         if (novastarefas.trim() === ''){
-            alert("Espaço está vazio!")
+            handleModalAlertOpen();
+            setMensagemAlerta('Envio de conteudo vazio, por favor envie novamente!')
             setValidarConteudo(true);
             return;
         }
 
-        const tarefaJaExiste = tarefas.some(tarefa => tarefa.text.toLowerCase() === novastarefas.trim().toLocaleLowerCase());
+        const tarefaJaExiste = tarefas.some(tarefa => tarefa.text.trim().toLowerCase() === novastarefas.trim().toLocaleLowerCase());
 
         if (tarefaJaExiste){
-            alert("A tarefa já existe!");
+            handleModalAlertOpen();
+            setMensagemAlerta('A tarefa já existe na lista.')
             setValidarConteudo(true);
             return;
         }
@@ -61,9 +81,12 @@ export function Lista (){
         setNovasTarefas('');
     }
 
-    function deletar (index){
-        const tarefasReformatadas = tarefas.filter((task , i) => i !== index);
-        setTarefas(tarefasReformatadas);
+    function deletar (){
+        if (modalOpen){
+            const tarefasReformatadas = tarefas.filter(task => task.id !== modalOpen.id);
+            setTarefas(tarefasReformatadas);
+            handleModalClose();
+        }
     }
 
     
@@ -130,7 +153,7 @@ export function Lista (){
                                 </section>
                                 
                             </section>
-                            <button onClick={() => deletar(index)} 
+                            <button onClick={() => handleModalOpen(tarefas)} 
                                     className="w-5 h-6 cursor-pointer"
                                 >
                                 <img src={LixeiraIcon}></img>
@@ -145,8 +168,24 @@ export function Lista (){
 
             )
         }
-            
 
-        </section>
+
+         {modalOpen && (
+            <DeleteModal 
+            item={modalOpen.text}
+            onDelete={deletar}
+            onClose={handleModalClose}
+            />
+        )}
+        
+
+        {mensagemAlerta && (
+            <AlertModal 
+            mensagem={mensagemAlerta}
+            onClose={() => setMensagemAlerta('')}
+            />
+        )}
+        
+        </section>  
     )
 }

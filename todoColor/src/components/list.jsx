@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LinearProgress from '@mui/material/LinearProgress';
 import LixeiraIcon from '../assets/lixeira.png';
 import DeleteModal from './modals/modal.delete';
@@ -6,7 +6,13 @@ import AlertModal from "./modals/modal.alert";
 
 
 export function Lista (){
-    const [tarefas , setTarefas] = useState([]);
+    const [tarefas , setTarefas] = useState(() => {
+        const tarefasSalvas = localStorage.getItem('tarefas');
+        if (tarefasSalvas){
+            return JSON.parse(tarefasSalvas);
+        }
+        return [];
+    });
     const [novastarefas , setNovasTarefas] = useState('');
     const [validarConteudo , setValidarConteudo] = useState(false);
     const [modalOpen , setModalOpen] = useState(null);
@@ -89,7 +95,11 @@ export function Lista (){
         }
     }
 
-    
+
+    useEffect(()=> {
+        localStorage.setItem('tarefas' , JSON.stringify(tarefas));
+
+    }, [tarefas])
 
     return (
         <section className="min-w-[30%] min-h-[70vh] max-h-auto flex flex-col justify-start items-center bg-white overflow-auto rounded-2xl box-border shadow-3xl py-6 px-4">

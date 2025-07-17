@@ -16,6 +16,8 @@ TodoColor é uma aplicação de lista de tarefas (To-Do List) desenvolvida para 
 -   ✅ **Validação de Entrada:** Impede a adição de tarefas vazias ou duplicadas.
 -   ⏳ **Edição de Tarefas:** Permitir que o usuário edite o texto de uma tarefa existente. (Funcionalidade em desenvolvimento)
 -   ⏳ **Filtro de Tarefas:** Filtrar a visualização entre tarefas pendentes e concluídas. (Funcionalidade em desenvolvimento)
+-   ⏳ **Seleção de cores interface/tarefas:** Permitir a seleção de visualização de cores da interface, garantindo acessibilidade ao usuário e customização. (Funcionalidade em desenvolvimento)
+
 
 ---
 

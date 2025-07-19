@@ -107,17 +107,20 @@ export function Lista (){
                 <h2 className="font-medium text-xl font-sans mb-[2rem]">Minhas tarefas</h2>
             </section>
 
+            <section className="w-full mb-[1.5rem]">
+                <input 
+                    className={`w-[100%] h-[9vh] bg-[#f0f2f5] overflow-hidden focus:outline-0 focus:ring-0 resize-none rounded-xl shadow-xs text-start px-3 mb-[2rem] hover:bg-[#e0e1e0] transition ease-in-out ${validarConteudo ? "border-1 border-red-500": "border-none"}`}
+                    type="text"
+                    id='items-input' 
+                    value={novastarefas}
+                    onChange={handleInputText}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Adicione um item"  
+                    maxLength={30}>
+                </input>
 
-            <input 
-                className={`w-[100%] h-[9vh] bg-[#f0f2f5] overflow-hidden focus:outline-0 focus:ring-0 resize-none rounded-xl shadow-xs text-start px-3 mb-[2rem] hover:bg-[#e0e1e0] transition ease-in-out ${validarConteudo ? "border-1 border-red-500": "border-none"}`}
-                type="text"
-                id='items-input' 
-                value={novastarefas}
-                onChange={handleInputText}
-                onKeyDown={handleKeyDown}
-                placeholder="Adicione um item"  
-                maxLength={30}>
-            </input>
+                <p className={`mt-[-2rem] text-end px-4 ${novastarefas.length >= 15 && novastarefas.length < 30 ? 'text-yellow-500' : ''} ${novastarefas.length == 30 ? 'text-red-500' : ''}`}>{novastarefas ? novastarefas.length : 0}/30</p>
+            </section>
             
             <section className="w-full mb-4 flex-col-reverse">
                 <p>{barraProgresso} %</p>

@@ -3,6 +3,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import LixeiraIcon from '../assets/lixeira.png';
 import DeleteModal from './modals/modal.delete';
 import AlertModal from "./modals/modal.alert";
+import { IoIosColorPalette } from "react-icons/io";
 
 
 export function Lista (){
@@ -95,6 +96,9 @@ export function Lista (){
         }
     }
 
+    function deleteAll (){
+        setTarefas([])
+    }
 
     useEffect(()=> {
         localStorage.setItem('tarefas' , JSON.stringify(tarefas));
@@ -102,7 +106,8 @@ export function Lista (){
     }, [tarefas])
 
     return (
-        <section className="min-w-[30%] min-h-[70vh] max-h-auto flex flex-col justify-start items-center bg-white overflow-auto rounded-2xl box-border shadow-3xl py-6 px-4">
+        <section className="relative min-w-[30%] min-h-[70vh] max-h-auto flex flex-col justify-start items-center bg-white overflow-auto rounded-2xl box-border shadow-3xl py-6 px-4">
+
             <section className="">
                 <h2 className="font-medium text-xl font-sans mb-[2rem]">Minhas tarefas</h2>
             </section>
@@ -144,11 +149,12 @@ export function Lista (){
             </section>
             
             {totalMaterias === 0 ? (
-                <p>Sem tarefas registradas</p>
-
+                <section>
+                    <p>Sem tarefas registradas</p>
+                </section>
             ):(
 
-                <section className=" w-[100%] h-auto overflow-y-auto max-h-[calc(70vh-30vh)]" >
+                <section className=" flex items-center flex-col w-[100%] h-auto overflow-y-auto max-h-[calc(70vh-30vh)]" >
                 <ol className="w-[100%] flex items-center flex-col">
                     {tarefas.map((tarefas , index) =>
                         <li key={tarefas.id} className="w-full flex items-center justify-between p-3 my-1 hover:bg-gray-200 rounded-2xl transition ease-in-out">
@@ -177,10 +183,14 @@ export function Lista (){
                     )}
                 </ol>
                 
+                <section className="flex items-center justify-center w-[5rem] h-[2rem] bg-gray-400 rounded-2xl mt-10">
+                    <button onClick={deleteAll} className="cursor-pointer font-semibold">Limpar</button>
+                </section>
             </section>
 
             )
         }
+        
 
 
          {modalOpen && (
@@ -200,5 +210,8 @@ export function Lista (){
         )}
         
         </section>  
+
+        
+
     )
 }
